@@ -1,5 +1,4 @@
-// Método para construir una tarjeta de vehículo
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 Widget buildVehicleCard() {
     return Card(
@@ -11,7 +10,6 @@ Widget buildVehicleCard() {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Contenedor para la imagen del vehículo
             Container(
               width: 50,
               height: 50,
@@ -19,7 +17,6 @@ Widget buildVehicleCard() {
               child: const Center(child: Text('IMG')),
             ),
             const SizedBox(width: 12),
-            // Información del vehículo
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
