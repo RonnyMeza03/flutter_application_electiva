@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class FormPage extends StatefulWidget {
   final Function(String, String, String) onSave;
+  final Map<String, String>? vehicle;
 
-  const FormPage({super.key, required this.onSave});
+  const FormPage({super.key, required this.onSave, this.vehicle});
 
   @override
   State<FormPage> createState() => _FormPageState();
@@ -11,9 +12,17 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _placaController = TextEditingController();
-  final TextEditingController _conductorController = TextEditingController();
-  final TextEditingController _empresaController = TextEditingController();
+  late TextEditingController _placaController;
+  late TextEditingController _conductorController;
+  late TextEditingController _empresaController;
+
+  @override
+  void initState() {
+    super.initState();
+    _placaController = TextEditingController(text: widget.vehicle?['placa'] ?? '');
+    _conductorController = TextEditingController(text: widget.vehicle?['conductor'] ?? '');
+    _empresaController = TextEditingController(text: widget.vehicle?['empresa'] ?? '');
+  }
 
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
@@ -22,14 +31,14 @@ class _FormPageState extends State<FormPage> {
         _conductorController.text,
         _empresaController.text,
       );
-      Navigator.pop(context); // Volver a la lista de vehículos
+      Navigator.pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Agregar Vehículo')),
+      appBar: AppBar(title: const Text('Agregar/Editar Vehículo')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

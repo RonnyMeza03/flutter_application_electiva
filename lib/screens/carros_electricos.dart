@@ -22,6 +22,21 @@ class _TodoListPageState extends State<TodoListPage> {
     });
   }
 
+  void _editVehicle(String oldPlaca, String newPlaca, String conductor, String empresa) {
+    setState(() {
+      int index = vehicles.indexWhere((v) => v['placa'] == oldPlaca);
+      if (index != -1) {
+        vehicles[index] = {'placa': newPlaca, 'conductor': conductor, 'empresa': empresa};
+      }
+    });
+  }
+
+  void _deleteVehicle(String placa) {
+    setState(() {
+      vehicles.removeWhere((v) => v['placa'] == placa);
+    });
+  }
+
   
   void _navigateToForm() {
     Navigator.push(
@@ -39,7 +54,11 @@ class _TodoListPageState extends State<TodoListPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CarDetailPage(vehicle: vehicle), 
+        builder: (context) => CarDetailPage(
+          vehicle: vehicle,
+          onEdit: _editVehicle,
+          onDelete: _deleteVehicle,
+        ), 
       ),
     );
   }
