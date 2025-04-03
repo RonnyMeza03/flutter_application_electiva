@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_electiva/screens/carros_electricos.dart';
+import 'package:flutter_application_electiva/services/login_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,15 +16,26 @@ class _LoginPageState extends State<LoginPage> {
   String _statusMessage = "";
 
   void _validate() async {
-    setState(() {
-      _statusMessage = _usernameController.value.text == "admin" && _passwordController.value.text == "admin" 
-        ? "Login exitoso" 
-        : "usuario o contraseña incorrecta";
+    // setState(() {
+    //   _statusMessage = _usernameController.value.text == "admin" && _passwordController.value.text == "admin" 
+    //     ? "Login exitoso" 
+    //     : "usuario o contraseña incorrecta";
+    // });
+    // if (_statusMessage == "Login exitoso") {
+    //   await Future.delayed(const Duration(seconds: 1));
+    //   _login();
+    // }
+    LoginService.fetch({
+      "username": _usernameController.value.text,
+      "password": _passwordController.value.text,
+    }).then((value) {
+      setState(() {
+        _statusMessage = value ? "Login exitoso" : "usuario o contraseña incorrecta";
+      });
+      if (value) {
+        _login();
+      }
     });
-    if (_statusMessage == "Login exitoso") {
-      await Future.delayed(const Duration(seconds: 1));
-      _login();
-    }
   }
 
   void _login() {
